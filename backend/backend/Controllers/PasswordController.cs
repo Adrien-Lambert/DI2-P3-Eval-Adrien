@@ -98,6 +98,7 @@ namespace backend.Controllers
         public async Task<IActionResult> GetPasswordById(int passwordId)
         {
             _logger.LogInformation("Processing request to get password with ID {PasswordId}.", passwordId);
+            IEncryptionStrategy encryptionStrategy = null;
 
             var password = await _passwordService.GetPasswordById(passwordId);
             if (password == null)
@@ -116,6 +117,18 @@ namespace backend.Controllers
             }
             password.Application = application;
 
+            if (application.ApplicationType == ApplicationType.PROFESSIONAL)
+            {
+                encryptionStrategy = new RSAEncryption();
+            }
+            else
+            {
+                encryptionStrategy = new AESEncryption();
+            }
+
+            password.EncryptedPassword = encryptionStrategy.Decrypt(password.EncryptedPassword);
+
+
             _logger.LogInformation("Password with ID {PasswordId} retrieved successfully.", passwordId);
             return Ok(PasswordMapper.ToPasswordReadDTO(password));
         }
@@ -128,6 +141,7 @@ namespace backend.Controllers
         public async Task<IActionResult> GetAllPasswords()
         {
             _logger.LogInformation("Processing request to get all passwords.");
+            IEncryptionStrategy encryptionStrategy = null;
 
             var passwords = await _passwordService.GetAllPasswords();
             if (passwords == null || !passwords.Any())
@@ -147,6 +161,17 @@ namespace backend.Controllers
                     return NotFound(); 
                 }
                 password.Application = application;
+
+                if (application.ApplicationType == ApplicationType.PROFESSIONAL)
+                {
+                    encryptionStrategy = new RSAEncryption();
+                }
+                else
+                {
+                    encryptionStrategy = new AESEncryption();
+                }
+
+                password.EncryptedPassword = encryptionStrategy.Decrypt(password.EncryptedPassword);
             }
 
             _logger.LogInformation("Passwords retrieved successfully, total count: {Count}.", passwords.Count);
