@@ -31,5 +31,10 @@ namespace backend.Services
         {
             return await _repository.ReadAll();
         }
+
+        public async Task<Password> GetPasswordById(int id)
+        {
+            return await _repository.ReadById(id);
+        }
     }
 }

@@ -25,5 +25,12 @@ namespace backend.Logic.Services
         /// <param name="id">The id of th password to delete.</param>
         /// <returns>True if successful; otherwise, false.</returns>
         Task<bool> DeletePassword(int id);
+
+        /// <summary>
+        /// Retrieves an password by its ID.
+        /// </summary>
+        /// <param name="id">The password ID.</param>
+        /// <returns>The password object if found; otherwise, null.</returns>
+        Task<Password> GetPasswordById(int id);
     }
 }

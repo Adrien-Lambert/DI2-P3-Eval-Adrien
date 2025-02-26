@@ -38,5 +38,10 @@ namespace backend.Data.Repositories
         {
             return await _context.Passwords.ToListAsync();
         }
+
+        public async Task<Password> ReadById(int id)
+        {
+            return await _context.Passwords.FirstOrDefaultAsync(p => p.PasswordId == id);
+        }
     }
 }

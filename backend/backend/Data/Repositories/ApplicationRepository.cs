@@ -29,7 +29,6 @@ namespace backend.Data.Repositories
         public async Task<Application> ReadById(int id)
         {
             return await _context.Applications.FirstOrDefaultAsync(a => a.ApplicationId == id);
-
         }
     }
 }

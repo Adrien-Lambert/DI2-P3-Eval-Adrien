@@ -9,5 +9,6 @@ namespace backend.Logic.Repositories
         Task<List<Password>> ReadAll();
 
         Task<bool> Delete(int id);
+        Task<Password> ReadById(int id);
     }
 }
