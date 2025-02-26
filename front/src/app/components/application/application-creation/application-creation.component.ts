@@ -33,16 +33,16 @@ import { ApplicationType } from '../../../../enums/application-type.enum';
 })
 export class ApplicationCreationComponent {
 
-    /**
+  /**
    * Data model for the application being created.
    * Pre-filled with default values.
    */
-    public applicationData: ApplicationCreationDto = {
-      application_name: '',
-      application_type: Object.keys(ApplicationType).indexOf('PUBLIC')
-    };
+  public applicationData: ApplicationCreationDto = {
+    application_name: '',
+    application_type: Object.keys(ApplicationType).indexOf('PUBLIC')
+  };
 
-    applicationTypes = Object.values(ApplicationType);
+  applicationTypes = Object.values(ApplicationType);
 
   /**
    * Constructor injecting necessary services.

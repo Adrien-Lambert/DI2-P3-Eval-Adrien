@@ -10,6 +10,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { PasswordReadDto } from '../../../../dtos/password-read.dto';
 import { PasswordService } from '../../../../services/password.service';
+import { PasswordCreationComponent } from '../password-creation/password-creation.component';
 
 @Component({
   selector: 'app-password-list',
@@ -60,17 +61,17 @@ export class PasswordListComponent implements AfterViewInit, OnInit{
   isLoading = false;
 
   /**
-     * Initializes the `PasswordListComponent` and fetches the list of passwords.
-     * 
-     * @param dialog - Injected `MatDialog` service for opening modal dialogs, such as the `PasswordCreateComponent`.
-     * @param passwordService - Injected `PasswordService` for handling API requests related to passwords.
-     * @param snackBar - Injected `MatSnackBar` service for displaying notifications to the user.
-     */
-    constructor(private dialog: MatDialog, private passwordService: PasswordService, private snackBar: MatSnackBar) {
-      this.isLoading = false;
-    }
+   * Initializes the `PasswordListComponent` and fetches the list of passwords.
+   * 
+   * @param dialog - Injected `MatDialog` service for opening modal dialogs, such as the `PasswordCreateComponent`.
+   * @param passwordService - Injected `PasswordService` for handling API requests related to passwords.
+   * @param snackBar - Injected `MatSnackBar` service for displaying notifications to the user.
+   */
+  constructor(private dialog: MatDialog, private passwordService: PasswordService, private snackBar: MatSnackBar) {
+    this.isLoading = false;
+  }
 
-      /**
+  /**
    * Lifecycle hook called after Angular has fully initialized the component's view.
    * Links the paginator and sort components to the table data source.
    */
@@ -84,36 +85,36 @@ export class PasswordListComponent implements AfterViewInit, OnInit{
   }
 
   /**
-     * Fetches the list of passwords from the server.
-     * Displays a loading spinner during the fetch and handles errors by showing a notification.
-     */
-    private fetchPasswords(): void {
-      this.isLoading = true;
-      this.passwordService.getAll().subscribe({
-        next: (data) => {
-          console.log('Fetched passwords:', data);
-          this.dataSource = new MatTableDataSource<PasswordReadDto>(
-            data.map(pass => ({
-              password_id: pass.password_id,
-              account_name: pass.account_name,
-              password: pass.password,
-              application: pass.application
-              
-            }))
-          );
-          
-          this.dataSource.paginator = this.paginator;
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Error fetching applications:', error);
-          this.openSnackBar('Failed to fetch passwords. Please try again.', 'Close');
-          this.isLoading = false;
-        }
-      });
-    }
+   * Fetches the list of passwords from the server.
+   * Displays a loading spinner during the fetch and handles errors by showing a notification.
+   */
+  private fetchPasswords(): void {
+    this.isLoading = true;
+    this.passwordService.getAll().subscribe({
+      next: (data) => {
+        console.log('Fetched passwords:', data);
+        this.dataSource = new MatTableDataSource<PasswordReadDto>(
+          data.map(pass => ({
+            password_id: pass.password_id,
+            account_name: pass.account_name,
+            password: pass.password,
+            application: pass.application
+            
+          }))
+        );
+        
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching applications:', error);
+        this.openSnackBar('Failed to fetch passwords. Please try again.', 'Close');
+        this.isLoading = false;
+      }
+    });
+  }
 
-    /**
+  /**
    * Deletes the specified password after user confirmation.
    * Refreshes the password list upon successful deletion.
    * @param password The password to be deleted.
@@ -138,6 +139,24 @@ export class PasswordListComponent implements AfterViewInit, OnInit{
   }
 
     /**
+   * Opens a dialog for creating a new password.
+   * After the dialog is closed, the password list is refreshed if a new password was created.
+   */
+    openCreatePassword(): void {
+      const dialogRef = this.dialog.open(PasswordCreationComponent, {
+        width: '50vw',
+        height: '60vh',
+        data: {}
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === true) {
+          this.fetchPasswords();
+        }
+      });
+    }
+
+  /**
    * Displays a notification with the given message and action.
    * @param message The message to display in the notification.
    * @param action The action label for the notification (e.g., "Close").
