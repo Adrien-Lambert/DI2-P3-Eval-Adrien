@@ -21,18 +21,16 @@ builder.Services.AddSwaggerGen();
 
 // TODO: Add services
 
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
+builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();
+
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
-
-// ?? Appliquer automatiquement les migrations au d�marrage de l'application
-using (var scope = app.Services.CreateScope())
-{
-    var dbContextt = scope.ServiceProvider.GetRequiredService<BackendDbContext>();
-    dbContextt.Database.Migrate();  // <=== Ex�cute les migrations !
-}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
