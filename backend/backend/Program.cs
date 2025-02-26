@@ -2,9 +2,9 @@ using backend.Data.DatabaseContext;
 using backend.Data.Repositories;
 using backend.Logic.Repositories;
 using backend.Logic.Services;
+using backend.Network.Middlewares;
 using backend.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseHttpsRedirection();
 
