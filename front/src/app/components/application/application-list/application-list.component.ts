@@ -62,9 +62,9 @@ export class ApplicationListComponent implements AfterViewInit, OnInit{
   isLoading = false;
 
   /**
-   * Initializes the `ListApplicationComponent` and fetches the list of applications.
+   * Initializes the `ApplicationListComponent` and fetches the list of applications.
    * 
-   * @param dialog - Injected `MatDialog` service for opening modal dialogs, such as the `CreateApplicationComponent`.
+   * @param dialog - Injected `MatDialog` service for opening modal dialogs, such as the `ApplicationCreateComponent`.
    * @param applicationService - Injected `ApplicationService` for handling API requests related to applications.
    * @param snackBar - Injected `MatSnackBar` service for displaying notifications to the user.
    */
