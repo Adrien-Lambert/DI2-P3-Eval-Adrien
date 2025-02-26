@@ -47,7 +47,7 @@ namespace backend.Data.Mappers
                 PasswordId = password.PasswordId,
                 AccountName = password.AccountName,
                 EncryptedPassword = password.EncryptedPassword,
-                ApplicationId = password.ApplicationId,
+                Application= ApplicationMapper.ToApplicationReadDTO(password.Application)
             };
         }
     }

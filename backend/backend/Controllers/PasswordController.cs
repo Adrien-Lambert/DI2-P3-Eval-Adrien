@@ -106,6 +106,16 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            _logger.LogInformation("Processing request to get linked application with ID {ApplicationId}.", password.ApplicationId);
+
+            var application = await _applicationService.GetApplicationById(password.ApplicationId);
+            if (application == null)
+            {
+                _logger.LogWarning("Application with ID {ApplicationId} not found.", password.ApplicationId);
+                return NotFound();
+            }
+            password.Application = application;
+
             _logger.LogInformation("Password with ID {PasswordId} retrieved successfully.", passwordId);
             return Ok(PasswordMapper.ToPasswordReadDTO(password));
         }
@@ -124,6 +134,19 @@ namespace backend.Controllers
             {
                 _logger.LogWarning("No passwords found.");
                 return NoContent();
+            }
+
+            foreach (var password in passwords)
+            {
+                _logger.LogInformation("Processing request to get linked application with ID {ApplicationId}.", password.ApplicationId);
+
+                var application = await _applicationService.GetApplicationById(password.ApplicationId);
+                if (application == null)
+                {
+                    _logger.LogWarning("Application with ID {ApplicationId} not found.", password.ApplicationId);
+                    return NotFound(); 
+                }
+                password.Application = application;
             }
 
             _logger.LogInformation("Passwords retrieved successfully, total count: {Count}.", passwords.Count);

@@ -14,7 +14,7 @@ namespace backend.Data.DTO
         [JsonPropertyName("password")]
         public string EncryptedPassword { get; set; }
 
-        [JsonPropertyName("application_id")]
-        public int ApplicationId { get; set; }
+        [JsonPropertyName("application")]
+        public ApplicationReadDto Application { get; set; }
     }
 }
