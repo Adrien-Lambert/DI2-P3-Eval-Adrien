@@ -5,8 +5,8 @@ namespace backend.Services.EncryptionStrategy
 {
     public class AESEncryption : IEncryptionStrategy
     {
-        private readonly byte[] Key = Encoding.UTF8.GetBytes("ThisIsASecretKey123");
-        private readonly byte[] IV = Encoding.UTF8.GetBytes("ThisIsAnIV123456");
+        private readonly byte[] Key = Encoding.UTF8.GetBytes("ThisIsASecretKey1234567890123456"); // 32 bytes key
+        private readonly byte[] IV = Encoding.UTF8.GetBytes("ThisIsAnIV123456"); // 16 bytes IV
 
         public string Encrypt(string plainText)
         {
