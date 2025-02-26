@@ -10,6 +10,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ApplicationCreationComponent } from '../application-creation/application-creation.component';
 
 
 @Component({
@@ -108,6 +109,24 @@ export class ApplicationListComponent implements AfterViewInit, OnInit{
         console.error('Error fetching applications:', error);
         this.openSnackBar('Failed to fetch applications. Please try again.', 'Close');
         this.isLoading = false;
+      }
+    });
+  }
+
+  /**
+   * Opens a dialog for creating a new application.
+   * After the dialog is closed, the application list is refreshed if a new application was created.
+   */
+  openCreateApplication(): void {
+    const dialogRef = this.dialog.open(ApplicationCreationComponent, {
+      width: '50vw',
+      height: '60vh',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.fetchApplications();
       }
     });
   }

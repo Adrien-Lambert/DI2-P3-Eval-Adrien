@@ -1,0 +1,33 @@
+<div class="mt-10 mx-8 flex flex-col gap-4">
+    <h3 mat-dialog-title class="text-center">Create an application</h3>
+      <form #appForm="ngForm" (ngSubmit)="onSubmit()" novalidate class="mt-10 mx-8">
+
+        <mat-form-field appearance="fill" class="w-full mb-4">
+          <mat-label>Application name</mat-label>
+          <input matInput [(ngModel)]="applicationData.application_name" name="application_name" required #appName="ngModel" />
+          @if (appName.invalid && appName.touched) {
+            <mat-error>Application name is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full mb-4">
+            <mat-label>Application Type</mat-label>
+            <mat-select [(ngModel)]="applicationData.application_type" name="application_type" required #appType="ngModel">
+              <mat-option *ngFor="let type of applicationTypes; let i = index" [value]="i">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+            @if (appType.invalid && appType.touched) {
+              <mat-error>Application type is required</mat-error>
+            }
+        </mat-form-field>    
+    
+        <div class="flex justify-end gap-4">
+          <button mat-button type="button" color="warn" (click)="closeDialog(false)">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!appForm.valid">
+            Create
+          </button>
+        </div>
+      </form>
+  </div>
+  
